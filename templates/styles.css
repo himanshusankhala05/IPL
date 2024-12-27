@@ -1,0 +1,126 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #f4f4f4;
+    color: #333;
+    font-size: 16px;
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #2C3E50;
+    margin-bottom: 20px;
+}
+
+/* Container */
+.container {
+    width: 100%;
+    max-width: 800px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+/* Contestant Purse */
+.contestant-purse {
+    margin-bottom: 30px;
+}
+
+.contestant-purse h3 {
+    font-size: 1.6rem;
+    color: #2980B9;
+    margin-bottom: 10px;
+}
+
+.contestant-purse p {
+    font-size: 1.2rem;
+    margin: 5px 0;
+    color: #34495E;
+}
+
+/* Player Details */
+.player-details h3 {
+    font-size: 1.8rem;
+    color: #16A085;
+    margin-bottom: 15px;
+}
+
+.player-details p {
+    font-size: 1.1rem;
+    margin: 5px 0;
+    color: #7F8C8D;
+}
+
+/* Form Styles */
+.auction-form form {
+    margin-bottom: 20px;
+}
+
+.auction-form select,
+.auction-form input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #BDC3C7;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.auction-form select {
+    background-color: #ECF0F1;
+}
+
+.auction-form input[type="submit"] {
+    background-color: #2980B9;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.auction-form input[type="submit"]:hover {
+    background-color: #3498DB;
+}
+
+.auction-form input[type="submit"]:disabled {
+    background-color: #BDC3C7;
+    cursor: not-allowed;
+}
+
+/* Horizontal Rule */
+hr {
+    border: 0;
+    border-top: 1px solid #BDC3C7;
+    margin: 20px 0;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    .auction-form select,
+    .auction-form input[type="submit"] {
+        font-size: 0.9rem;
+    }
+}

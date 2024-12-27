@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>IPL Auction</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+
+    <style>
+       /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 4rem;
+            color: #ffffff;
+            
+            margin-bottom: 20px;
+        }
+
+        h2 {
+
+            text-align: center;
+            border-radius: 25px;
+            
+            background-color: #d9defb;
+            padding:   15px 80px;
+            
+        }
+        
+
+        .ccard {
+            text-align: center;
+            padding:   15px 80px;
+            background-color: #efd4d4; 
+            border-radius: 10px;
+        }
+
+        .ccard h5{
+
+           
+           
+            font-size: 1.5rem;
+        }
+        
+       
+        
+        /* General Styling */
+        .container1 {
+            border-radius: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Header Styling */
+        .site-header {
+            border-radius: 10px;
+            background-color: hsl(243, 100%, 35%);
+            color: #fff;
+            padding: 15px 0;
+        }
+
+        .site-header .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 15px;
+        }
+
+        .main-nav ul li {
+            margin: 0;
+        }
+
+        .main-nav ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav ul li a:hover {
+            color: #FFDD57; /* Yellow color on hover */
+        }
+
+        /* Footer Styling */
+        .site-footer {
+            border-radius: 10px;
+            background-color: #333;
+            color: #ccc;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .site-footer p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .footer-nav ul {
+            list-style: none;
+            margin: 10px 0 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .footer-nav ul li {
+            margin: 0;
+        }
+
+        .footer-nav ul li a {
+            text-decoration: none;
+            color: #ccc;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-nav ul li a:hover {
+            color: #FFDD57; /* Yellow color on hover */
+        }
+        
+        
+
+        /* Popup overlay */
+        .popup {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        /* Popup content box */
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .popup-content h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .popup-content p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .popup-content button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: white;
+            background-color: #2980B9;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .popup-content button:hover {
+            background-color: #3498DB;
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Styling for contestant buttons container */
+        .contestant-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px; /* Space between buttons */
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        /* General button styles */
+        .contestant-buttons button {
+            padding: 12px 20px; /* Button padding */
+            font-size: 1rem; /* Text size */
+            font-weight: bold; /* Bold text */
+            color: #fff; /* White text */
+            background-color: #cd2c2c; /* Primary blue color */
+            border: none; /* No border */
+            border-radius: 8px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor on hover */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            transition: all 0.3s ease; /* Smooth hover effect */
+        }
+
+        /* Hover effect */
+        .contestant-buttons button:hover {
+            background-color: #a21d1d; /* Darker blue on hover */
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* More pronounced shadow */
+            transform: translateY(-2px); /* Slight upward movement */
+        }
+
+        /* Active (clicked) state */
+        .contestant-buttons button:active {
+            background-color: #841616; /* Even darker blue */
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2); /* Reduced shadow */
+            transform: translateY(1px); /* Slight downward movement */
+        }
+
+        /* Disabled state (optional) */
+        .contestant-buttons button:disabled {
+            background-color: #cccccc; /* Light gray */
+            color: #666666; /* Darker gray text */
+            cursor: not-allowed; /* Not-allowed cursor */
+            box-shadow: none; /* No shadow */
+        }
+
+        /* Contestant Purse */
+        .contestant-purse {
+            margin-bottom: 30px;
+        }
+
+        .contestant-purse h3 {
+            font-size: 1.6rem;
+            color: #2980B9;
+            margin-bottom: 10px;
+        }
+
+        .contestant-purse p {
+            font-size: 1.5rem;
+            font-family: sans-serif;
+            font: bolder    ;
+            margin: 5px 0;
+            color: #34495E;
+        }
+
+        .player-details h6 {
+            float: left;
+            font-size: 1rem;
+        }
+        /* Player Details */
+        .player-details h3 {
+            font-size: 1.8rem;
+            color: #16A085;
+            margin-bottom: 15px;
+        }
+        
+
+        .player-details p {
+            font-size: 1.1rem;
+            margin: 5px 0;
+            color: #7F8C8D;
+        }
+        .player-details .basep{
+            font-size: 1.2rem;
+            margin: 5px 0;
+            color: #222222;
+        }
+
+
+
+        .player-details .bidtaken{
+            font-size: 1.5rem;
+            margin: 5px 0;
+            color: #187e0f;
+        }
+
+        /* Form Styles */
+        .auction-form form {
+            margin-bottom: 20px;
+        }
+
+        .auction-form select,
+        .auction-form input[type="submit"] {
+
+            width: 60%;
+            padding: 10px;
+            font-size: 1.5rem;
+            border: 1px solid #BDC3C7;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .auction-form select {
+            background-color: #ECF0F1;
+        }
+
+        .auction-form input[type="submit"] {
+            background-color: #2980B9;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .auction-form input[type="submit"]:hover {
+            background-color: #3498DB;
+        }
+
+        .auction-form input[type="submit"]:disabled {
+            background-color: #BDC3C7;
+            cursor: not-allowed;
+        }
+
+        /* Horizontal Rule */
+        hr {
+            border: 0;
+            border-top: 1px solid #BDC3C7;
+            margin: 20px 0;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .auction-form select,
+            .auction-form input[type="submit"] {
+                font-size: 0.9rem;
+            }
+        }
+
+        .skip {
+            background-color: #7f2c00;
+        }
+
+    </style>
+</head>
+<body>
+    
+
+    <div class="container">
+        <!-- Header -->
+        <header class="site-header">
+            <div class="container1">
+                <h1 class="logo">Crayons</h1>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="">Home</a></li>
+                        <li><a href="/players" target="_blank">Players</a></li>
+                        <li><a href="/contestants" target="_blank">Contestants</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <br>
+        <div class="contestant-purse">
+            <h2><span>Contestant's Purse</span></h2>
+            <br>
+            <div class="ccard">
+                    {% for contestant, purse in purse_sizes.items() %}
+                    {% if contestant != 'Skip' %}
+                    <h5>{{ contestant }}  :   ₹<span class="number">{{ purse }}</span></h5>
+                    {% endif %}
+                    {% endfor %}
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="player-details">
+            <h6>{{ players_remaining }} players left</h6>
+            <br>
+            <h3> Current Player <span>#{{ current_player_index }} {{ player.name }}</span></h3>
+            <!--<div id="imageContainer">
+                    
+            </div> -->
+            <p>Base price: ₹<span class="number">{{ player.base_price }}</span></p>
+            <p>{{ player.capped_uncapped }} - {{ player.type }} || Overseas: {{ player.overseas }} || Wicketkeeper: {{ player.wicketkeeper }}</p>
+            <p></p><br>
+            <p class="bidtaken"> <h3>Bid Taken: ₹<span class="number">{{ current_bid }}</span> by {{ current_bidder if current_bidder else 'None' }}</h3></p>
+            
+            
+            <p class="currbid"><h3 style="color: #bd1212; font-size: 2.5rem;">Current Bid: ₹<span class="number">{{ new_bid }}</span></h3></p>
+            <br>
+        </div>
+
+        <div class="auction-form">
+            <form method="post" action="/place_bid">
+                <input type="hidden" name="player_sr_no" value="{{ player.sr_no }}">
+                <div class="contestant-buttons">
+                    {% for contestant in purse_sizes.keys() %}  
+                    {% if contestant != 'Skip' %}
+                    <button type="submit" name="contestant" value="{{ contestant }}" {% if current_bidder == contestant %}disabled{% endif %}>
+                        {{ contestant }}
+                    </button>
+                    {% endif %}
+
+                    {% if contestant == 'Skip' %}
+                    
+                    <button type="submit" class="skip" name="contestant" value="{{ contestant }}" {% if current_bidder == contestant %}disabled{% endif %}>
+                            {{ contestant }}
+                    </button>
+                    {% endif %}
+                    
+                    {% endfor %}
+                </div>
+            </form>
+        
+            <hr>
+        
+            <form method="post" action="/finalize_bid" id="finalizeBidForm">
+                <input type="submit" value="Finalize Bid" {% if not current_bidder %}disabled{% endif %}>
+            </form>
+        </div>
+        <!-- Popup Modal -->
+        <div id="popup" class="popup">
+            <div class="popup-content">
+                <h3 style="color: rgb(102, 215, 96); font-size: 2rem;">Sold!</h3>
+                <p>The {{ player.name }} has been sold to {{ current_bidder }} for ₹<span style="color: #187e0f;">{{ current_bid }}</span>.</p>
+                <button id="closePopup">Close</button>
+            </div>
+        </div>  
+        <!-- Footer -->
+        <footer class="site-footer">
+            <div class="container1">
+                <p>&copy; 2024 Crayons. All Rights Reserved.</p>
+                <nav class="footer-nav">
+                    <ul>
+                        <li><a href="#terms">Terms of Service</a></li>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#support">Support</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </footer>
+    </div>
+    <script>
+
+
+        
+
+        // Function to format number in Indian format
+        function formatIndianNumber(number) {
+            let numStr = number.toString();
+            let lastThreeDigits = numStr.slice(-3);
+            let remainingDigits = numStr.slice(0, -3);
+
+            if (remainingDigits) {
+                lastThreeDigits = ',' + lastThreeDigits;
+            }
+
+            return remainingDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThreeDigits;
+        }
+
+        // Select all spans with the class "number"
+        const numberElements = document.querySelectorAll(".number");
+
+        // Loop through each element and format its content
+        numberElements.forEach(element => {
+            const rawNumber = Number(element.textContent);
+            if (!isNaN(rawNumber)) {
+                element.textContent = formatIndianNumber(rawNumber);
+            }
+        });
+
+
+
+        const playerName = "{{player.name}}" ; // Replace with your backend player name
+
+        // Fetch image from Wikipedia API
+        getPlayerImage(playerName);
+
+        function getPlayerImage(playerName) {
+            console.log(playerName);
+            const apiUrl = `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(playerName)}&prop=pageimages&format=json&formatversion=2&pithumbsize=500&origin=*`;
+
+            // Fetch data using the API
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const pages = data.query.pages;
+
+                    if (pages && pages[0].thumbnail) {
+                        // If image is found, display it
+                        displayImage(pages[0].thumbnail.source, playerName);
+                    } else {
+                        // If no image is found
+                        displayNoImage(playerName);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching player image:", error);
+                    displayNoImage(playerName);
+                });
+        }
+
+        function displayImage(imageUrl, playerName) {
+            const imageContainer = document.getElementById('imageContainer');
+            imageContainer.innerHTML = `
+                <img src="${imageUrl}" alt="${playerName}" style="max-width: 300px;">
+                <p>${playerName}</p>
+            `;
+        }
+
+        function displayNoImage(playerName) {
+            const imageContainer = document.getElementById('imageContainer');
+            imageContainer.innerHTML = `
+                <p>Sorry, no image found for "${playerName}".</p>
+            `;
+        }
+        
+        
+
+        
+
+        
+
+        const finalizeForm = document.getElementById("finalizeBidForm");
+        const popup = document.getElementById("popup");
+        const closePopupButton = document.getElementById("closePopup");
+
+        document.getElementById("finalizeBidForm").addEventListener("submit", function (e) {
+            e.preventDefault(); // Prevent the form submission
+            document.getElementById("popup").style.display = "flex"; // Show the popup
+        });
+
+        document.getElementById("closePopup").addEventListener("click", function () {
+            document.getElementById("popup").style.display = "none"; // Hide the popup
+            finalizeForm.submit(); 
+        });
+
+        
+    </script>
+</body>
+</html>
