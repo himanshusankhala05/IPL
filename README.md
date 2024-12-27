@@ -1,5 +1,4 @@
-
-#IPL Auction Project#
+IPL Auction Project
 This project is a web-based IPL Auction system that allows users to simulate an IPL player auction. It provides a platform for bidding on players, managing teams, and visualizing auction results in real-time.
 
 Features
