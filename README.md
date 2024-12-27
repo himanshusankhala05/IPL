@@ -5,7 +5,7 @@ Features
 User-friendly interface for browsing and bidding on players.
 Team management: View the current team composition and budget.
 Real-time auction updates.
-Backend powered by Flask for handling logic and data.
+The backend is powered by Flask to handle logic and data.
 Dynamic and responsive frontend using HTML, CSS, and JavaScript.
 Technologies Used
 Frontend:
@@ -24,30 +24,12 @@ Clone the Repository:
 
 bash
 Copy code
-git clone https://github.com/your-repo/ipl-auction.git  
+git clone 
 cd ipl-auction  
 Create a Virtual Environment:
 
-bash
-Copy code
-python -m venv venv  
-source venv/bin/activate  # For Linux/Mac  
-venv\Scripts\activate     # For Windows  
-Install Dependencies:
 
-bash
-Copy code
-pip install -r requirements.txt  
-Set Up the Database:
 
-Configure the database in the config.py file (if required).
-Initialize the database:
-bash
-Copy code
-flask db init  
-flask db migrate  
-flask db upgrade  
-Run the Application:
 
 bash
 Copy code
@@ -62,31 +44,15 @@ Auction Summary: View a summary of the auction results.
 Folder Structure
 plaintext
 Copy code
-ipl-auction/  
-├── app/  
-│   ├── static/       # CSS, JavaScript, images  
-│   ├── templates/    # HTML templates  
-│   ├── __init__.py   # Flask app initialization  
-│   ├── routes.py     # Application routes  
-│   ├── models.py     # Database models  
-│   └── forms.py      # Flask-WTF forms  
-├── migrations/       # Database migrations  
-├── config.py         # Configuration file  
-├── requirements.txt  # Python dependencies  
-├── README.md         # Project documentation  
-└── run.py            # Entry point of the application  
-Screenshots
-Add screenshots of your project here to showcase the UI and functionality.
+
+
 
 Future Enhancements
-Add user authentication for personalized experience.
+Add user authentication for a personalized experience.
 Include real-time updates using WebSockets.
 Implement detailed player statistics and analytics.
 Contributing
 Contributions are welcome! Please open an issue or submit a pull request.
-
-License
-This project is licensed under the MIT License.
 
 Acknowledgments
 Inspired by the IPL auction system.
