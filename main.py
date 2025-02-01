@@ -1,3 +1,4 @@
+
 from flask import Flask, jsonify, render_template, request, redirect, send_from_directory, url_for, session
 import openpyxl
 import pandas as pd
@@ -10,10 +11,10 @@ app.secret_key = 'your_secret_key'  # For session management
 
 
 # File paths
-CURRENT_STATE_FILE = 'current_state.txt'
-CONTESTANT_PURSE_FILE = 'contestants_purse_value.txt'
-USERS_LIST_FILE = 'users_list.xlsx'
-AUCTION_DATA_FILE = 'auction_data.xlsx'
+CURRENT_STATE_FILE = 'D:/CODE/IPL/current_state.txt'
+CONTESTANT_PURSE_FILE = 'D:/CODE/IPL/contestants_purse_value.txt'
+USERS_LIST_FILE = 'D:/CODE/IPL/users_list.xlsx'
+AUCTION_DATA_FILE = 'D:/CODE/IPL/auction_data.xlsx'
 
 
 
@@ -43,7 +44,7 @@ def update_state(state):
 
 # Load player data from Excel file
 def load_players():
-    wb = openpyxl.load_workbook('auction_data.xlsx')
+    wb = openpyxl.load_workbook('D:/CODE/IPL/auction_data.xlsx')
     sheet = wb.active
     players = []
     for row in sheet.iter_rows(min_row=2, values_only=True):
@@ -61,7 +62,7 @@ def load_players():
 
 # Save the auction record to Excel file
 def save_auction_record(contestant, player, bid_amount):
-    wb = openpyxl.load_workbook('users_list.xlsx')
+    wb = openpyxl.load_workbook('D:/CODE/IPL/users_list.xlsx')
     if contestant not in wb.sheetnames:
         wb.create_sheet(contestant)
     sheet = wb[contestant]
@@ -70,11 +71,11 @@ def save_auction_record(contestant, player, bid_amount):
         player['capped_uncapped'], bid_amount
     ]
     sheet.append(new_row)
-    wb.save('users_list.xlsx')
+    wb.save('D:/CODE/IPL/users_list.xlsx')
 
 def load_contestants_purse():
     contestants_purse = {}
-    with open("contestants_purse_value.txt", "r") as file:
+    with open("D:/CODE/IPL/contestants_purse_value.txt", "r") as file:
         for line in file:
             # Split each line into key and value
             if ':' in line:
@@ -84,7 +85,7 @@ def load_contestants_purse():
 
 
 def update_contestants_purse(contestants_purse):
-    with open("contestants_purse_value.txt", "w") as file:
+    with open("D:/CODE/IPL/contestants_purse_value.txt", "w") as file:
         for key, value in contestants_purse.items():
             file.write(f"{key}: {value}\n")
 
@@ -140,7 +141,7 @@ def players():
     data = None
     
     
-    df = pd.read_excel('auction_data.xlsx')
+    df = pd.read_excel('D:/CODE/IPL/auction_data.xlsx')
     df = df.iloc[current_player_index:]
     data = df.to_dict(orient="records")
 
@@ -161,14 +162,14 @@ def contestants():
 
     
     
-    excel_file = pd.ExcelFile("users_list.xlsx")
+    excel_file = pd.ExcelFile("D:/CODE/IPL/users_list.xlsx")
     sheets = excel_file.sheet_names
 
     # Check if a sheet is selected
     selected_sheet = request.form.get("sheet_name")
     if selected_sheet:
         # Read the selected sheet into a DataFrame
-        df = pd.read_excel("users_list.xlsx", sheet_name=selected_sheet)
+        df = pd.read_excel("D:/CODE/IPL/users_list.xlsx", sheet_name=selected_sheet)
 
         # Convert DataFrame to a list of dictionaries for rendering
         data = df.to_dict(orient="records")
@@ -200,7 +201,7 @@ def place_bid():
 
     increment = 0
     if new_bid >= 3000000 and new_bid < 5000000:
-        increment = 2000000
+        increment = 1000000
     elif new_bid >= 5000000 and new_bid < 20000000:
         increment = 2500000
     else:

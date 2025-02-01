@@ -1,0 +1,4 @@
+current_player_index:0
+current_bid:0
+new_bid:20000000
+current_bidder:None
